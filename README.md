@@ -45,7 +45,7 @@ module.exports = apiConfiguration;
 - `apiVersion`: Specifies the API version to use ('v1' or 'v2').
 - `documentsFolder`: The folder path for storing documents in the Static Storage System.
 - `firebaseServiceAccountKey`: The Firebase service account key for API version 2.
-- `collectionName`: The name of the collection (Should be the same as the collection name in the Firebase database).
+- `collectionName`: The name of the main collection (Should be the same as the collection name in the Firebase database).
 
 ## API Routes
 
@@ -58,6 +58,7 @@ module.exports = apiConfiguration;
     - `description`: Description of the document.
     - `price`: Price of the document.
     - `images`: Images associated with the document.
+    - `collection`: Collection of the document.
 - **Response**:
     - 201 Created: Returns the newly created document in JSON format.
     - 400 Bad Request: If required parameters are missing in the request body.

@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     try {
-        const {title, description, price, images} = req.body;
+        const {title, description, price, images, collection} = req.body;
         const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
         if (!title || !description || !price || !images) {
@@ -19,6 +19,7 @@ router.post('/create', async (req, res) => {
             description,
             price,
             images,
+            collection
         };
 
         await saveDocument(id, newProduct, () => {
