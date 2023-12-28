@@ -9,8 +9,11 @@ app.use(bodyParser.json());
 
 if (checkConfigurationIntegrity(apiConfig)) {
     const apiRoutes = require(`./api/${apiConfig.apiVersion}/api`);
+    const authRoutes = require('./api/auth/api');
 
     app.use(`/${apiConfig.apiVersion}/`, apiRoutes);
+    app.use(`/`, authRoutes);
+
     try {
         app.listen(apiConfig.port, () => {
             console.log(`Server is running on port ${apiConfig.port}`);
@@ -60,5 +63,11 @@ function checkConfigurationIntegrity(apiConfig) {
         integrity = false;
     }
 
+    if (apiConfig.authentication) {
+        if (apiConfig.authentication?.enabled && !apiConfig.authentication?.firestoreCollection) {
+            err('Authentication enabled but Firestore collection not found in configuration');
+            integrity = false;
+        }
+    }
     return integrity;
 }
