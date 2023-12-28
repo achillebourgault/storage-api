@@ -11,12 +11,16 @@ router.post('/setUserDetails/:id', async (req, res) => {
     const userRef = admin.firestore().collection(apiConfiguration.authentication.firestoreCollection).doc(userId);
     const doc = await userRef.get();
 
-    if (doc.exists) {
-        await userRef.update({ fullname, profilePicture, isAdmin });
-    } else {
-        await userRef.set({ fullname, profilePicture, isAdmin });
+    try {
+        if (doc.exists) {
+            await userRef.update({ fullname, profilePicture, isAdmin });
+        } else {
+            await userRef.set({ fullname, profilePicture, isAdmin });
+        }
+        res.status(200).json({ message: 'User details updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Could not update user details' });
     }
-    res.status(200).json({ message: 'User details updated successfully' });
 });
 
 module.exports = router;

@@ -10,20 +10,21 @@ app.use(bodyParser.json());
 app.use(cors());
 
 if (checkConfigurationIntegrity(apiConfig)) {
-    const apiRoutes = require(`./api/${apiConfig.apiVersion}/api`);
-    const authRoutes = require('./api/auth/api');
-
-    app.use(`/${apiConfig.apiVersion}/`, apiRoutes);
-    app.use(`/`, authRoutes);
+    const apiRoutes = require(`./api/${apiConfig.apiVersion}/api`); // Products Collection API
+    const authRoutes = require('./api/auth/api'); // Authentication API
 
     try {
+        app.use(`/${apiConfig.apiVersion}/`, apiRoutes);
+        if (apiConfig.authentication.enabled) app.use(`/`, authRoutes);
+
         app.listen(apiConfig.port, () => {
             console.log(`Server is running on port ${apiConfig.port}`);
             console.log(`API version: ${apiConfig.apiVersion}`);
             console.log(`API URL: ${apiConfig.baseUrl}:${apiConfig.port}/${apiConfig.apiVersion}`);
+            if (apiConfig.authentication.enabled) console.log(`Authentication System Enabled: /auth`);
         });
     } catch (error) {
-        err('Could not start Storage API server', error);
+        err('Could not start Ecommerce API server', error);
     }
 }
 
