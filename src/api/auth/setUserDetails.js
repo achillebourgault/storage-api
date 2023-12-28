@@ -6,17 +6,17 @@ const admin = require('firebase-admin');
 
 router.post('/setUserDetails/:id', async (req, res) => {
     const userId = req.params.id;
-    const { fullname, profilePicture } = req.body;
+    const { fullname, profilePicture, isAdmin } = req.body;
 
     const userRef = admin.firestore().collection(apiConfiguration.authentication.firestoreCollection).doc(userId);
     const doc = await userRef.get();
 
     if (doc.exists) {
-        await userRef.update({ fullname, profilePicture });
+        await userRef.update({ fullname, profilePicture, isAdmin });
     } else {
-        await userRef.set({ fullname, profilePicture, isAdmin: false });
+        await userRef.set({ fullname, profilePicture, isAdmin });
     }
-    res.send({ message: 'User details updated successfully' });
+    res.json({ message: 'User details updated successfully' });
 });
 
 module.exports = router;
