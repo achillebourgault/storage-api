@@ -16,7 +16,7 @@ router.post('/setUserDetails/:id', async (req, res) => {
     } else {
         await userRef.set({ fullname, profilePicture, isAdmin });
     }
-    res.json({ message: 'User details updated successfully' });
+    res.status(200).json({ message: 'User details updated successfully' });
 });
 
 module.exports = router;
