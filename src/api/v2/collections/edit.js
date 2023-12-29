@@ -11,8 +11,8 @@ router.post('/edit/:id', async (req, res) => {
     if (!product)
         return res.status(404).json({error: 'Document not found'});
     for (const [key, value] of Object.entries(updatedFields)) product[key] = value;
-    await updateDocument(productId, product,
-        () => res.json({message: 'Document updated successfully', product}));
+    await updateDocument(productId, product);
+    res.status(200).json({message: 'Document updated successfully', product})
 });
 
 module.exports = router;
