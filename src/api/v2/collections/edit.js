@@ -13,7 +13,7 @@ router.post('/edit/:id', async (req, res) => {
     for (const [key, value] of Object.entries(updatedFields)) product[key] = value;
 
     await updateDocument(productId, product);
-    res.status(200).json({message: 'Document updated successfully', product})
+    res.status(200).json({message: 'Document updated successfully', product: product}).end();
 });
 
 module.exports = router;
