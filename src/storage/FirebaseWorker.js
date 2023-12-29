@@ -60,9 +60,24 @@ async function deleteDocument(docId, callback) {
     }
 }
 
+// Edit a document by its ID from the specified Firestore collection
+
+async function updateDocument(docId, content, callback) {
+    try {
+        await admin.firestore().collection(firestoreCollection).doc(docId).update(content);
+        if (callback) callback();
+        return true;
+    } catch (error) {
+        console.error('ERROR Could not update document from Firestore');
+        console.error('ERROR ', error);
+        return false;
+    }
+}
+
 module.exports = {
     getAllDocuments,
     saveDocument,
     deleteDocument,
     getDocumentById,
+    updateDocument
 };
